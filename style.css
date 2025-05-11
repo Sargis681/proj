@@ -4,6 +4,20 @@ body {
     padding: 20px;
     color: #333;
   }
+  .word-like {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 10px;
+    font-family: "Times New Roman", serif;
+    font-size: 14pt;
+    line-height: 1.5;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    outline: none;
+    white-space: pre-wrap;
+  }
   
   button {
     background-color: #0055aa;
