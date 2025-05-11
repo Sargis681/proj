@@ -31,6 +31,7 @@ function addReport() {
         </label><br><br>
 
         <button onclick="generateText(this)">Ստեղծել հաշվետվություն</button><br>
+        
         <textarea class="result" style="width:100%; height:200px; margin-top:10px;"></textarea>
         <hr>
     `;
@@ -64,4 +65,45 @@ function generateText(button) {
 ${finalResult}`;
 
     container.querySelector(".result").value = textContext;
+}
+function downloadAllReports() {
+    const results = document.querySelectorAll(".result");
+    if (results.length === 0) {
+        alert("Չկան ստեղծված հաշվետվություններ։");
+        return;
+    }
+
+    let combinedText = "";
+
+    results.forEach((textarea, index) => {
+        if (textarea.value.trim() !== "") {
+            combinedText += `<h3>Հաշվետվություն ${index + 1}</h3>` +
+                            `<p>${textarea.value.replace(/\n/g, "<br>")}</p><br><br>`;
+        }
+    });
+
+    if (combinedText === "") {
+        alert("Բովանդակություն չկա։");
+        return;
+    }
+
+    const htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+              xmlns:w='urn:schemas-microsoft-com:office:word' 
+              xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>Reports</title></head><body>
+            ${combinedText}
+        </body></html>`;
+
+    const blob = new Blob(['\ufeff', htmlContent], {
+        type: 'application/msword'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "AllReports.doc";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
